@@ -1,2 +1,5 @@
 User-agent: *
-Disallow: /
+Allow: /
+Disallow: /q/
+Disallow: /links/
+Sitemap: https://wandercoffee.com.au/sitemap.xml
