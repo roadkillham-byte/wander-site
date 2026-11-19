@@ -165,6 +165,22 @@ if (typeof window !== 'undefined') (function () {
   });
   // FAQ opens: the toggle event does not bubble, so listen in the capture phase. Each question is reported once.
   var faqSeen = {};
+  // Question collector: a visitor types a question and WhatsApp opens with it filled in (ref: faq-<page>), so questions land with Sam and can
+  // be tallied (see the Questions Log note). The data layer only ever gets the page name, never the text.
+  Array.prototype.forEach.call(document.querySelectorAll('form[data-ask]'), function (f) {
+    f.hidden = false;
+    f.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var box = f.querySelector('textarea'), q = (box.value || '').replace(/\s+/g, ' ').trim().slice(0, 300);
+      if (!q) { box.focus(); return; }
+      var ref = f.getAttribute('data-ask') || 'faq';
+      push('faq_ask', { page: ref });
+      var base = (window.WANDER_LINKS && window.WANDER_LINKS.whatsapp) || 'https://wa.me/61492801058';
+      var url = base + '?text=' + encodeURIComponent('Hi Wander, a question: ' + q + ' (ref: faq-' + ref + ')');
+      var a = document.createElement('a'); a.href = url; a.target = '_blank'; a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove();
+      box.value = '';
+    });
+  });
   document.addEventListener('toggle', function (e) {
     var d = e.target; if (!d || d.tagName !== 'DETAILS' || !d.open) return;
     var idx = Array.prototype.indexOf.call(document.querySelectorAll('details'), d);
