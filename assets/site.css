@@ -1,0 +1,102 @@
+@font-face{font-family:WanderHand;src:url(wander-hand.woff2) format("woff2");font-display:swap}
+/* Body text: Atkinson Hyperlegible, self-hosted (SIL OFL 1.1, see atkinson-hyperlegible-OFL.txt). Both weights are preloaded by every
+   page; "optional" uses them when they are there for the first paint and never swaps late, so text cannot jump. */
+@font-face{font-family:"Atkinson Hyperlegible";src:url(atkinson-hyperlegible-400.woff2) format("woff2");font-weight:400;font-style:normal;font-display:optional}
+@font-face{font-family:"Atkinson Hyperlegible";src:url(atkinson-hyperlegible-700.woff2) format("woff2");font-weight:700;font-style:normal;font-display:optional}
+:root{--sage:#738561;--cream:#f2ebe2;--orange:#f57b00;--forest:#174638;--ink:#4d3b31;--paper:#fffaf3;--forest-deep:#0e2f26}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:18px/1.6 "Atkinson Hyperlegible","Segoe UI",system-ui,sans-serif;background-image:radial-gradient(#738561 .6px,transparent .6px);background-size:26px 26px;background-position:0 0}
+.skip{position:absolute;left:-999px}.skip:focus{left:8px;top:8px;background:#fff;padding:8px;z-index:9}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px 16px;padding:10px clamp(14px,4vw,32px);background:var(--forest);color:var(--cream);flex-wrap:wrap;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:8px;color:var(--cream);text-decoration:none;font:32px WanderHand,cursive}
+.top nav{display:flex;gap:4px 16px;flex-wrap:wrap}.top nav a{color:var(--cream);text-decoration:none;font-size:15px;display:inline-flex;align-items:center;min-height:44px;padding:0;border-bottom:2px solid transparent}.top nav a:hover,.top nav a[aria-current]{border-color:var(--orange)}
+main{max-width:780px;margin:0 auto;padding:0 clamp(16px,4vw,24px) 48px}section{padding:22px 0}
+.hero{text-align:center;padding:52px 0 30px}.kicker{margin:0;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--forest);font-weight:700}
+h1{font:clamp(44px,10vw,76px)/.98 WanderHand,cursive;color:var(--forest);margin:6px 0 12px;text-wrap:balance}h2{font:36px/1.1 WanderHand,cursive;color:var(--forest);margin:26px 0 8px}h3{margin:0 0 4px;color:var(--forest)}
+.sub{font-size:20px;max-width:34em;margin-inline:auto}.doors,.stack{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:20px 0 8px}.stack{flex-direction:column;max-width:340px;margin-inline:auto}
+.btn{display:inline-block;background:var(--orange);color:var(--forest-deep);padding:14px 26px;border-radius:999px;text-decoration:none;font-weight:700;border:2px solid var(--orange);box-shadow:0 3px 0 #0002;transition:transform .15s,box-shadow .15s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 6px 0 #0002}.btn.alt{background:var(--forest);border-color:var(--forest);color:#fff}.btn.ghost{background:transparent;color:var(--forest);border-color:var(--forest)}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px}.cols>div{background:var(--paper);padding:16px;border-radius:16px;border:1px solid #17463822;transform:rotate(-.4deg)}.cols>div:nth-child(2){transform:rotate(.5deg)}
+.menu{list-style:none;padding:0}.menu li{display:flex;justify-content:space-between;border-bottom:2px dotted var(--sage);padding:8px 0}
+.tick{list-style:none;padding:0}.tick li{padding:3px 0 3px 28px;position:relative}.tick li::before{content:"✓";position:absolute;left:0;color:var(--orange);font-weight:700}.steps{padding-left:24px}.steps li{padding:2px 0}
+.strip{background:#6a7a58;color:#fff;border-radius:14px;padding:12px 16px;text-align:center;margin:16px auto;max-width:640px}.strip.big{font-size:22px}
+.band{background:var(--forest);color:var(--cream);border-radius:22px;padding:28px;text-align:center}.band h2{color:var(--cream);margin-top:0}
+.callout{background:var(--paper);border-left:6px solid var(--orange);padding:12px 16px;border-radius:8px}.quiet{text-align:center;font-size:15px}.quiet a{display:inline-block;min-height:44px;padding:10px 4px}
+/* Text links in the page body: brand forest, never browser blue. Buttons keep their own colours. */
+main a:not(.btn){color:var(--forest);text-decoration-thickness:2px;text-underline-offset:3px}
+details{background:var(--paper);border-radius:12px;padding:10px 14px;margin:8px 0;border:1px solid #17463822}summary{cursor:pointer;font-weight:700;color:var(--forest);min-height:44px;padding:8px 0}
+.prose h1{font-size:54px}.prose .note{font-size:14px;opacity:.75}.prose .plain{padding-left:20px}
+footer{text-align:center;padding:28px 16px;background:var(--forest);color:var(--cream);font-size:14px}footer a{color:var(--cream);display:inline-flex;align-items:center;min-height:44px;padding:0 4px}footer p{margin:4px 0}
+a:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+.bar{display:none}
+@media (max-width:640px){.bar{display:flex;gap:8px;position:fixed;left:0;right:0;bottom:0;padding:8px 12px;background:var(--forest);z-index:6}.bar .btn{flex:1;text-align:center;padding:12px 8px}.bar .btn.ghost{background:var(--cream);color:var(--forest)}body{padding-bottom:70px}}
+/* Islands hub. Without JS (no .js on <html>) the islands are stacked sections with everything visible. The row from 960px keys on
+   .js (set in <head> before first paint) so the first frame is already the row; islands.js then adds data-live, the heading toggles
+   and the collapse. Stacked (phones, or JS off) the Offices island comes first; the row keeps Events, Offices, Order. */
+.hero-hub{padding:30px 0 4px}.hero-hub h1{font-size:clamp(40px,5.6vw,62px);max-width:15em;margin-inline:auto}
+.islands{display:flex;flex-direction:column;gap:22px;padding:20px 0 34px}
+.island-offices{order:-1}#offices{scroll-margin-top:120px}
+/* The where line is for a collapsed island only: open (or JS off) the island's own text already gives the address and hours. */
+.island-where{display:none;margin:0 0 12px;font-size:15px;font-weight:700}.islands[data-live] .island:not([data-active]) .island-where{display:block}
+/* Locals' one-line path under the hub sub: a text link, so the Offices island stays the main thing. */
+.hub-local{margin:12px 0 0;font-size:17px}.hub-local a{display:inline-block;min-height:44px;padding:10px 6px;font-weight:700}
+.island{--ring:var(--forest);position:relative;isolation:isolate;overflow:hidden;color:var(--forest);padding:34px clamp(20px,3vw,38px) 32px;border-radius:46px 62px 52px 40px/42px 48px 60px 52px;
+  box-shadow:0 0 0 8px #7385611f,0 1px 0 #ffffff80 inset,0 -18px 36px -24px #17463859 inset,0 26px 44px -26px #17463880,0 8px 16px -10px #17463859}
+.island-events{background:repeating-radial-gradient(ellipse 130% 85% at 14% 6%,#0000 0 26px,#1746381a 26px 27.5px),radial-gradient(ellipse 70% 45% at 92% 4%,#f57b0047,#0000 70%),linear-gradient(172deg,#e3e8d9,#c8d1bb 52%,#adba9c)}
+.island-offices{--ring:var(--orange);color:var(--cream);background:repeating-radial-gradient(ellipse 120% 75% at 78% 0%,#0000 0 30px,#f2ebe212 30px 31.5px),radial-gradient(ellipse 65% 42% at 8% 0%,#73856180,#0000 70%),radial-gradient(ellipse 55% 38% at 100% 100%,#f57b0038,#0000 70%),linear-gradient(166deg,#235c49,#174638 46%,#0e2f26)}
+.island-order{background:repeating-radial-gradient(ellipse 130% 90% at 86% 8%,#0000 0 24px,#1746381a 24px 25.5px),radial-gradient(ellipse 60% 40% at 6% 0%,#ffffff8c,#0000 70%),linear-gradient(176deg,#fde4c6,#fbc68c 52%,#f7a75e)}
+.island-head{margin:0;font:inherit;color:inherit}
+.island-tag{display:inline-block;font-size:13px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px 4px;border-radius:999px;background:#ffffff70}.island-offices .island-tag{background:#f2ebe221}
+.island-title{display:block;font:clamp(38px,4.2vw,52px)/1 WanderHand,cursive;margin:12px 0 8px;text-wrap:balance}
+.island-toggle{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;position:relative;padding-right:50px;border-radius:18px}
+.island-mark{position:absolute;right:0;top:0;width:38px;height:38px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center}
+.island-mark::before,.island-mark::after{content:"";position:absolute;width:14px;height:2.5px;border-radius:2px;background:currentColor;transition:transform .3s}.island-mark::after{transform:rotate(90deg)}.island[data-active] .island-mark::after{transform:rotate(0)}
+.island-toggle:focus-visible{outline:3px solid var(--ring);outline-offset:-3px}
+.island a:focus-visible,.island input[type=number]:focus-visible,.island .finder-hours input:focus-visible+span{outline:3px solid var(--ring);outline-offset:4px}
+.island-line{margin:4px 0 14px;font-size:17px;max-width:36em}
+.island-proof{display:inline-block;margin:2px 0 12px;padding:7px 14px;font-weight:700;border:2px dashed currentColor;border-radius:14px 20px 12px 22px;transform:rotate(-1.2deg)}
+.island-go{margin:20px 0 0}.island .btn{font-size:19px}
+.island .strip{background:var(--forest);color:var(--cream);text-align:left;margin:4px 0 0;font-size:15px}
+.island{container-type:inline-size}.island-stack{display:grid;gap:14px 22px;align-items:start;margin:4px 0 0}
+@container (min-width:500px){.island-stack{grid-template-columns:minmax(262px,1.2fr) minmax(0,1fr)}}
+.island-promise{list-style:none;margin:0;padding:0;font-size:16px;line-height:1.45}.island-promise li{position:relative;padding:5px 0 5px 28px}
+.island-promise li::before{content:"";position:absolute;left:3px;top:11px;width:13px;height:7px;border-left:3px solid var(--orange);border-bottom:3px solid var(--orange);transform:rotate(-45deg)}
+.island-fine{font-size:15px;margin:16px 0 10px}
+/* Hub Offices: the button and the no-charge line sit directly under the finder price, in the finder's own column. */
+.island-cta .btn{margin:14px 0 0}.island-nocharge{margin:8px 0 0;font-size:15px}
+/* The island's own button (below) shows only while Offices is collapsed; open (or JS off) the button under the finder is the one. */
+.island-offices .island-go{display:none}.islands[data-live] .island-offices:not([data-active]) .island-go{display:block}
+.founding{margin:10px 0;padding:10px 14px;font-size:15px;border:2px dashed var(--orange);border-radius:16px 12px 18px 14px}.founding-left{display:inline-block;white-space:nowrap;font-weight:700;background:var(--cream);color:var(--forest);padding:0 9px;border-radius:999px}
+.island-slot{margin:12px 0 0;font:27px/1.1 WanderHand,cursive}
+/* Price finder (hub and offices page). Colours follow the surrounding text. */
+.finder{margin:0;padding:14px 16px 12px;border-radius:20px 24px 18px 26px;background:color-mix(in srgb,currentColor 8%,transparent);border:1.5px solid color-mix(in srgb,currentColor 30%,transparent)}
+.finder-q{margin:0 0 8px;font-size:13px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.finder-people{display:flex;align-items:center;gap:12px;font-weight:700}.finder-people input{width:5.2em;font:inherit;font-size:22px;font-weight:700;padding:5px 10px;border-radius:12px;border:2px solid var(--sage);background:var(--paper);color:var(--forest)}
+.finder-hours{border:0;margin:10px 0 0;padding:0;min-width:0}.finder-hours legend{padding:0;margin:0 0 6px;font-weight:700}
+.finder-hours label{position:relative;display:inline-block;margin:0 2px 4px 0}.finder-hours input{position:absolute;inset:0;opacity:0;margin:0;cursor:pointer}
+.finder-hours span{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;border:2px solid currentColor;font-size:19px;font-weight:700;transition:background .2s,color .2s}.finder-hours input:checked+span{background:var(--orange);border-color:var(--orange);color:var(--forest-deep)}
+.finder-out{margin:8px 0 0;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}.finder-out output{font:46px/1.05 WanderHand,cursive;min-width:3ch}.finder-out small{font-size:14px}
+.finder-head{margin:6px 0 0;font-size:14px;line-height:1.4}.finder-head:empty{display:none}.finder-eg{display:none;margin:8px 0 0;font-weight:700}.finder-nojs{display:none;margin:6px 0 0;font-size:14px}
+html:not(.js) .finder-people,html:not(.js) .finder-hours{display:none}html:not(.js) .finder-eg,html:not(.js) .finder-nojs{display:block}html:not(.js) .finder-eg+.finder-out{margin-top:0}
+.islands[data-live] .island:not([data-active]) .island-more{display:none}
+.islands[data-live] .island[data-active] .island-more{animation:isle-in .5s cubic-bezier(.2,.8,.2,1) both}
+@keyframes isle-in{from{opacity:0;transform:translateY(8px)}}
+@media (min-width:960px){
+  .js .islands{--iw:min(1180px,calc(100vw - 48px));width:var(--iw);margin-left:calc((100% - var(--iw))/2);flex-direction:row;align-items:stretch;gap:20px;min-height:660px;padding-top:28px}
+  .js .islands .island{flex:1 1 0;min-width:0}.js .island-offices{order:0}
+  .islands[data-motion] .island{transition:flex-grow .65s cubic-bezier(.2,.8,.2,1),border-radius .65s cubic-bezier(.2,.8,.2,1),transform .45s ease,box-shadow .45s ease}
+  .js .islands .island[data-active]{flex-grow:2.6;transform:translateY(-8px)}
+  .js .islands .island-events{border-radius:66% 34% 40% 60%/11% 6% 13% 9%}.js .islands .island-events[data-active]{border-radius:42% 58% 36% 64%/8% 11% 7% 12%}
+  .js .islands .island-offices{border-radius:38% 62% 58% 42%/7% 10% 8% 11%}.js .islands .island-offices[data-active]{border-radius:58% 42% 64% 36%/9% 6% 11% 7%}
+  .js .islands .island-order{border-radius:30% 70% 62% 38%/8% 12% 9% 13%}.js .islands .island-order[data-active]{border-radius:62% 38% 44% 56%/11% 8% 12% 7%}
+  .js .islands .island:not([data-active]) .island-title{font-size:clamp(30px,2.7vw,38px)}
+}
+@media (min-width:960px) and (hover:hover){.island-mark{display:none}.island-toggle{padding-right:0}}
+@media (max-width:640px){.islands{gap:16px;padding-top:12px}.island{padding:24px 20px 24px;border-radius:30px 42px 34px 46px/34px 30px 42px 36px}.island-title{font-size:36px}.finder-out output{font-size:40px}}
+@media (prefers-reduced-motion:reduce){.islands .island,.islands .island-more,.island-mark::after,.finder-hours span{transition:none!important;animation:none!important}.js .islands .island[data-active]{transform:none}}
+/* /offices/ and /events/ hero: the finder sits under the sub, then one button and the no-charge line. */
+:is(.hero-offices,.hero-events) .finder{max-width:440px;margin:22px auto 18px;text-align:left;color:var(--forest);background:var(--paper);border:2px solid var(--forest);box-shadow:0 0 0 6px #7385611f,0 14px 28px -18px #17463880;transform:rotate(-.4deg)}
+:is(.hero-offices,.hero-events) .finder-out output{color:var(--forest)}.hero-fine{margin:10px 0 0;font-size:15px}
+.finder-hours input:focus-visible+span{outline:3px solid var(--orange);outline-offset:3px}
+@media (max-width:640px){.hero-offices{padding:28px 0 18px}.hero-offices h1{font-size:44px}.hero-offices .sub{font-size:18px}:is(.hero-offices,.hero-events) .finder{margin:16px auto 14px}}
