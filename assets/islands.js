@@ -41,7 +41,7 @@
   // build.py writes on /offices/ and /events/. null when no places are left.
   function foundingParts(f) {
     if (!f || !Number.isInteger(f.left) || f.left < 1 || !Number.isInteger(f.total)) return null;
-    return ["Founding hosts:", " our first " + f.total + " bookings get a bonus hour free, in return for a review and photos. ",
+    return ["Founding hosts:", " our first " + f.total + " bookings get a bonus hour free, in return for photos and a few kind words we can share. ",
       f.left + (f.left === 1 ? " place" : " places") + " left.", " We confirm your bonus hour when we ring you."];
   }
   function foundingLine(f) { const p = foundingParts(f); return p ? p.join("") : ""; }

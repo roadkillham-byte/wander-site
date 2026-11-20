@@ -45,8 +45,8 @@ function quietSignal(nav) {
 // Tags go only where they are read: the Square site (WANDER_LINKS.order and .menu) and the booking page (.book). Any other link
 // (WhatsApp, socials, maps, phone, a lookalike host) comes back as the very same string, so a pre-filled WhatsApp message is never
 // re-encoded. Booking links also carry the finder's people and hours (whole numbers only) so the booking page can start there.
-// o: { tag: {source, medium, campaign}, content, links: window.WANDER_LINKS, finder: {people, hours} or null }.
-var TAG_KEYS = ['order', 'menu', 'book'];
+// o: { tag: {source, medium, campaign}, content, links: window.WANDER_LINKS, finder: {people, hours} or null, photo: hours of the optional photographer, or 0 }.
+var TAG_KEYS = ['order', 'menu', 'book', 'refer'];
 function isWholeCount(n) { return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n > 0; }
 function tagUrl(href, o) {
   o = o || {};
@@ -63,6 +63,7 @@ function tagUrl(href, o) {
   var c = o.content ? String(o.content).toLowerCase().replace(/[^a-z0-9_-]/g, '').slice(0, 40) : '';
   if (c) add.push(['utm_content', c]);
   if (kind === 'book' && f && isWholeCount(f.people) && isWholeCount(f.hours)) { add.push(['people', String(f.people)]); add.push(['hours', String(f.hours)]); }
+  if (kind === 'book' && isWholeCount(o.photo)) add.push(['photo', String(o.photo)]);
   if (!add.length) return href;
   add.forEach(function (p) { u.searchParams.set(p[0], p[1]); });
   return u.toString();
@@ -101,8 +102,8 @@ if (typeof window !== 'undefined') (function () {
   if (window.WANDER_QR) tag = { source: 'qr', medium: 'print', campaign: window.WANDER_QR };
   else if (!tag && here.indexOf('/links/') === 0) tag = { source: 'instagram', medium: 'bio', campaign: '' };
   var content = new URLSearchParams(location.search).get('utm_content');
-  function tagged(href, finder) {
-    try { return tagUrl(href, { tag: tag, content: content, links: window.WANDER_LINKS, finder: finder || null }); } catch (e) { return href; }
+  function tagged(href, finder, photo) {
+    try { return tagUrl(href, { tag: tag, content: content, links: window.WANDER_LINKS, finder: finder || null, photo: photo || 0 }); } catch (e) { return href; }
   }
   // The first-party tracker. Not even built under a privacy signal (building it writes a visitor id to storage).
   var tracker = null; if (!quiet) { try { tracker = window.WanderBoot.tracker(); } catch (e) {} }
@@ -153,8 +154,9 @@ if (typeof window !== 'undefined') (function () {
   var goLinks = [];
   try { Array.prototype.forEach.call(document.querySelectorAll('a[data-go]'), function (a) { var h = a.getAttribute('href'); if (/^https:/.test(h || '')) goLinks.push([a, h]); }); } catch (e) {}
   function relink() {
-    var f = finderState(finderRoot, window.WanderFinder);
-    goLinks.forEach(function (p) { try { var next = tagged(p[1], f); if (p[0].getAttribute('href') !== next) p[0].setAttribute('href', next); } catch (e) {} });
+    var f = finderState(finderRoot, window.WanderFinder), pc = null; try { pc = document.querySelector('[data-photo]'); } catch (e) {}
+    var photo = pc && pc.checked && f ? f.hours : 0;
+    goLinks.forEach(function (p) { try { var next = tagged(p[1], f, photo); if (p[0].getAttribute('href') !== next) p[0].setAttribute('href', next); } catch (e) {} });
   }
   relink();
   if (finderRoot) { document.addEventListener('input', relink); document.addEventListener('change', relink); }
@@ -187,6 +189,24 @@ if (typeof window !== 'undefined') (function () {
     if (idx < 0 || faqSeen[idx]) return; faqSeen[idx] = true;
     push('faq_open', { question: idx });
   }, true);
+  // Section views: an element marked data-view="name" reports once, when half of it has been on screen (the breakdown, the Office Club, the
+  // photographer option). Only the name is reported. Interest in the photographer is reported when the box is ticked or cleared, with the hours.
+  if (layer && layer.enabled && window.IntersectionObserver) {
+    try {
+      var seen = new window.IntersectionObserver(function (list) { list.forEach(function (en) { if (!en.isIntersecting) return; var n = en.target.getAttribute('data-view'); seen.unobserve(en.target); push('section_view', { name: String(n || '').slice(0, 30) }); }); }, { threshold: 0.5 });
+      Array.prototype.forEach.call(document.querySelectorAll('[data-view]'), function (el) { seen.observe(el); });
+    } catch (e) {}
+  }
+  document.addEventListener('change', function (e) {
+    var t = e.target; if (!t || !t.hasAttribute || !t.hasAttribute('data-photo')) return;
+    var f = finderState(finderRoot, window.WanderFinder); push('photo_choice', { on: !!t.checked, hours: f ? f.hours : 0 });
+  });
+  // Menu taps (where the visitor goes next) and script errors (the file name only), so a broken page shows up in the numbers.
+  document.addEventListener('click', function (e) {
+    var a = e.target && e.target.closest && e.target.closest('header nav a'); if (!a) return;
+    push('nav_click', { to: String(a.getAttribute('href') || '').split(/[?#]/)[0].slice(0, 40) });
+  });
+  window.addEventListener('error', function (e) { push('js_error', { file: String((e && e.filename) || '').split('/').pop().split('?')[0].slice(0, 40) }); });
   // Scroll depth: 25, 50, 75 and 100 per cent of the page, each once. Passive listener, one check per frame.
   var scrollMarks = [25, 50, 75, 100], scrollQueued = false;
   function checkScroll() {
