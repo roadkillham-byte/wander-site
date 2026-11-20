@@ -1,4 +1,4 @@
-// Islands hub: Events, Offices (centre, the default) and Order grow on hover, keyboard focus or tap.
+// Islands hub: Offices, Events (centre, the default) and Order grow on hover, keyboard focus or tap.
 // next() is the pure state; mount() wires the page and is a no-op when already mounted. With JS off nothing here runs
 // and the three islands stay stacked with everything visible.
 (function (root, factory) {
@@ -12,7 +12,7 @@
     }
   }
 })(typeof self !== "undefined" ? self : this, function () {
-  const NAMES = ["events", "offices", "order"], HOME = 1;
+  const NAMES = ["offices", "events", "order"], HOME = 1;
   const valid = function (i) { return Number.isInteger(i) && i >= 0 && i < NAMES.length; };
 
   // On a coarse pointer (touch, or the stacked phone layout) only tap changes state, and tapping the open island closes it.
@@ -132,9 +132,9 @@
       if (t && islands[state.active].contains(doc.activeElement) && doc.activeElement !== t) t.focus();
       dispatch("escape", state.active, "focus", coarse(null));
     });
-    // A link to the Offices island (the hub's sticky "Price my morning" sits outside this section, so listen on the document):
-    // open Offices without the second-tap collapse, then bring its finder into view. The native jump is cancelled because it
-    // would land the island's top under the sticky header. Without islands.js the link is a plain jump to #offices.
+    // A link to the Events island (the hub's sticky "Price my weekend" sits outside this section, so listen on the document):
+    // open Events without the second-tap collapse, then bring its finder into view. The native jump is cancelled because it
+    // would land the island's top under the sticky header. Without islands.js the link is a plain jump to #events.
     const home = islands[HOME];
     if (home.id) doc.addEventListener("click", function (e) {
       const a = e.target && e.target.closest ? e.target.closest('a[href="#' + home.id + '"]') : null;
@@ -158,7 +158,7 @@
         slot.hidden = false;
       }
     }
-    // The price finder lives in the Offices island; mounted once (marked so a later caller can skip it).
+    // The price finder lives in the Events island; mounted once (marked so a later caller can skip it).
     const finder = root.querySelector("[data-finder]");
     if (finder && !finder.hasAttribute("data-finder-live") && win.WanderFinder) {
       finder.setAttribute("data-finder-live", "");

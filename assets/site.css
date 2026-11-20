@@ -44,16 +44,16 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-of
    and the collapse. Stacked (phones, or JS off) the Offices island comes first; the row keeps Events, Offices, Order. */
 .hero-hub{padding:24px 0 0}.hero-hub h1{font-size:clamp(40px,5.2vw,64px);max-width:20em;margin:10px auto 0}
 .islands{display:flex;flex-direction:column;gap:22px;padding:14px 0 34px}
-.island-offices{order:-1}#offices{scroll-margin-top:120px}
+.island-events{order:-1}#events{scroll-margin-top:120px}
 /* The where line is for a collapsed island only: open (or JS off) the island's own text already gives the address and hours. */
 .island-where{display:none;margin:0 0 12px;font-size:17px;font-weight:700}.islands[data-live] .island:not([data-active]) .island-where{display:block}
 .island{--ring:var(--forest);position:relative;isolation:isolate;overflow:hidden;color:var(--forest);text-align:center;padding:44px clamp(20px,3vw,38px) 32px;border-radius:46px 62px 52px 40px/42px 48px 60px 52px;
   border:4px solid var(--forest-deep);box-shadow:9px 10px 0 var(--forest-deep)}
-.island-events{background:repeating-radial-gradient(ellipse 130% 85% at 14% 6%,#0000 0 26px,#17463826 26px 28px),var(--sage-tint)}
-.island-offices{--ring:var(--orange);color:var(--cream);background:repeating-radial-gradient(ellipse 120% 75% at 78% 0%,#0000 0 30px,#f2ebe21a 30px 32px),var(--forest);box-shadow:9px 10px 0 var(--orange)}
+.island-offices{background:repeating-radial-gradient(ellipse 130% 85% at 14% 6%,#0000 0 26px,#17463826 26px 28px),var(--sage-tint)}
+.island-events{--ring:var(--orange);color:var(--cream);background:repeating-radial-gradient(ellipse 120% 75% at 78% 0%,#0000 0 30px,#f2ebe21a 30px 32px),var(--forest);box-shadow:9px 10px 0 var(--orange)}
 .island-order{color:var(--forest-deep);background:repeating-radial-gradient(ellipse 130% 90% at 86% 8%,#0000 0 24px,#0e2f2622 24px 26px),var(--orange)}
 .island-head{margin:0;font:inherit;color:inherit}
-.island-tag{display:inline-block;font-size:17px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px 4px;border-radius:999px;background:#ffffff70}.island-offices .island-tag{background:#f2ebe221}
+.island-tag{display:inline-block;font-size:17px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;padding:5px 12px 4px;border-radius:999px;background:#ffffff70}.island-events .island-tag{background:#f2ebe221}
 .island-title{display:block;font:clamp(42px,4.4vw,60px)/1 var(--font);margin:14px auto 10px;max-width:12em;text-wrap:balance}
 .island-toggle{all:unset;box-sizing:border-box;display:block;width:100%;cursor:pointer;position:relative;padding:0 46px;text-align:center;border-radius:18px}
 .island-mark{position:absolute;right:0;top:0;width:38px;height:38px;border-radius:50%;border:2px solid currentColor;display:grid;place-items:center}
@@ -72,7 +72,7 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-of
 /* Hub Offices: the button and the no-charge line sit directly under the finder price, in the finder's own column. */
 .island-cta .btn{margin:14px 0 0}.island-nocharge{margin:8px 0 0;font-size:17px}
 /* The island's own button (below) shows only while Offices is collapsed; open (or JS off) the button under the finder is the one. */
-.island-offices .island-go{display:none}.islands[data-live] .island-offices:not([data-active]) .island-go{display:block}
+.island-events .island-go{display:none}.islands[data-live] .island-events:not([data-active]) .island-go{display:block}
 .founding{margin:10px 0;padding:10px 14px;font-size:17px;border:2px dashed var(--orange);border-radius:16px 12px 18px 14px}.founding-left{display:inline-block;white-space:nowrap;font-weight:700;background:var(--cream);color:var(--forest);padding:0 9px;border-radius:999px}
 .island-slot{margin:12px 0 0;font:27px/1.1 var(--font)}
 /* Price finder (hub and offices page). Colours follow the surrounding text. */
@@ -91,15 +91,15 @@ html:not(.js) .finder-people,html:not(.js) .finder-hours{display:none}html:not(.
 @media (min-width:960px){
   .hero-hub{--hw:min(1080px,calc(100vw - 48px));width:var(--hw);margin-left:calc((100% - var(--hw))/2)}
   .js .islands{--iw:min(1240px,calc(100vw - 48px));width:var(--iw);margin-left:calc((100% - var(--iw))/2);flex-direction:row;align-items:stretch;gap:20px;min-height:640px;padding-top:18px}
-  .js .islands .island{flex:1 1 0;min-width:0}.js .island-offices{order:0}
+  .js .islands .island{flex:1 1 0;min-width:0}.js .island-events{order:0}
   .islands[data-motion] .island{transition:flex-grow .65s cubic-bezier(.2,.8,.2,1),border-radius .65s cubic-bezier(.2,.8,.2,1),transform .45s ease,box-shadow .45s ease}
   .js .islands .island[data-active]{flex-grow:2.4;transform:translateY(-8px)}
   .js .islands .island:not([data-active]){display:flex;flex-direction:column;justify-content:flex-start;align-items:center;padding:96px 22px 32px;cursor:pointer}
   .js .islands .island:not([data-active]):hover{transform:translateY(-6px) rotate(-.6deg);box-shadow:11px 14px 0 var(--forest-deep)}
   .js .islands .island-order:not([data-active]):hover{transform:translateY(-6px) rotate(.6deg)}
   .js .islands .island:not([data-active]) .island-go{margin-top:22px}
-  .js .islands .island-events{border-radius:66% 34% 40% 60%/11% 6% 13% 9%}.js .islands .island-events[data-active]{border-radius:42% 58% 36% 64%/8% 11% 7% 12%}
-  .js .islands .island-offices{border-radius:38% 62% 58% 42%/7% 10% 8% 11%}.js .islands .island-offices[data-active]{border-radius:58% 42% 64% 36%/9% 6% 11% 7%}
+  .js .islands .island-offices{border-radius:66% 34% 40% 60%/11% 6% 13% 9%}.js .islands .island-offices[data-active]{border-radius:42% 58% 36% 64%/8% 11% 7% 12%}
+  .js .islands .island-events{border-radius:38% 62% 58% 42%/7% 10% 8% 11%}.js .islands .island-events[data-active]{border-radius:58% 42% 64% 36%/9% 6% 11% 7%}
   .js .islands .island-order{border-radius:30% 70% 62% 38%/8% 12% 9% 13%}.js .islands .island-order[data-active]{border-radius:62% 38% 44% 56%/11% 8% 12% 7%}
   .js .islands .island:not([data-active]) .island-title{font-size:clamp(38px,3.3vw,48px)}
 }
@@ -115,7 +115,7 @@ html:not(.js) .finder-people,html:not(.js) .finder-hours{display:none}html:not(.
 /* WanderHand is the only font. It has one weight, so the browser may not fake a bold (font-synthesis:none above); emphasis is colour and size. */
 button,input,select,textarea{font:inherit}
 b,strong,summary,.btn,th{font-weight:400}
-b,strong{color:var(--forest)}.island-offices b,.island-offices strong,.band b{color:var(--cream)}.island-order b,.island-order strong{color:var(--forest-deep)}
+b,strong{color:var(--forest)}.island-events b,.island-events strong,.band b{color:var(--cream)}.island-order b,.island-order strong{color:var(--forest-deep)}
 /* Question collector (site.js unhides it). */
 .ask{margin:18px 0 8px;padding:16px;border-radius:16px;background:var(--sage-tint);border:3px solid var(--forest);box-shadow:5px 5px 0 var(--orange)}
 .ask label{display:block;font-size:26px;color:var(--forest);margin:0 0 6px}
