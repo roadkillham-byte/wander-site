@@ -45,7 +45,7 @@ function quietSignal(nav) {
 // Tags go only where they are read: the Square site (WANDER_LINKS.order and .menu) and the booking page (.book). Any other link
 // (WhatsApp, socials, maps, phone, a lookalike host) comes back as the very same string, so a pre-filled WhatsApp message is never
 // re-encoded. Booking links also carry the finder's people and hours (whole numbers only) so the booking page can start there.
-// o: { tag: {source, medium, campaign}, content, links: window.WANDER_LINKS, finder: {people, hours} or null, photo: hours of the optional photographer, or 0 }.
+// o: { tag: {source, medium, campaign}, content, links: window.WANDER_LINKS, finder: {people, hours} or null, photo: hours of the optional photographer, or 0, door: the link's data-door }.
 var TAG_KEYS = ['order', 'menu', 'book', 'refer'];
 function isWholeCount(n) { return typeof n === 'number' && isFinite(n) && Math.floor(n) === n && n > 0; }
 function tagUrl(href, o) {
@@ -64,6 +64,7 @@ function tagUrl(href, o) {
   if (c) add.push(['utm_content', c]);
   if (kind === 'book' && f && isWholeCount(f.people) && isWholeCount(f.hours)) { add.push(['people', String(f.people)]); add.push(['hours', String(f.hours)]); }
   if (kind === 'book' && isWholeCount(o.photo)) add.push(['photo', String(o.photo)]);
+  if (kind === 'book' && /^[a-z0-9_-]{1,20}$/.test(String(o.door || ''))) add.push(['from', String(o.door)]);
   if (!add.length) return href;
   add.forEach(function (p) { u.searchParams.set(p[0], p[1]); });
   return u.toString();
@@ -88,7 +89,24 @@ function siteBase(el) {
   var b = ''; try { b = (el && el.getAttribute && el.getAttribute('data-base')) || ''; } catch (e) {}
   return /^(\/(?!\.+(\/|$))[A-Za-z0-9._-]+)+$/.test(String(b)) ? String(b) : '';
 }
-var WanderSite = { reviewLinkHtml: reviewLinkHtml, eventForLink: eventForLink, quietSignal: quietSignal, tagUrl: tagUrl, finderState: finderState, siteBase: siteBase };
+// The site's interaction events as the tracker's one generic event: {n: name, a, b: short labels, v: a number}. Names only, never text a visitor typed.
+// null for anything else. Pure, so node can test it. Until the Apps Script knows the `ev` type it drops these quietly.
+function namedEvent(name, d) {
+  d = d || {};
+  var s = function (v) { return String(v === undefined || v === null ? '' : v).slice(0, 40); };
+  switch (name) {
+    case 'section_view': return { n: name, a: s(d.name) };
+    case 'photo_choice': return { n: name, a: d.on ? 'on' : 'off', v: Number(d.hours) || 0 };
+    case 'nav_click': return { n: name, a: s(d.to) };
+    case 'js_error': return { n: name, a: s(d.file) };
+    case 'island_expand': case 'island_collapse': return { n: name, a: s(d.island), b: s(d.via) };
+    case 'island_dwell': return { n: name, a: s(d.island), v: Number(d.seconds) || 0 };
+    case 'faq_open': return { n: name, v: Number(d.question) || 0 };
+    case 'faq_ask': return { n: name, a: s(d.page) };
+    default: return null;
+  }
+}
+var WanderSite = { namedEvent: namedEvent, reviewLinkHtml: reviewLinkHtml, eventForLink: eventForLink, quietSignal: quietSignal, tagUrl: tagUrl, finderState: finderState, siteBase: siteBase };
 if (typeof module === 'object' && module.exports) module.exports = WanderSite;
 if (typeof window !== 'undefined') (function () {
   // A privacy signal (Do Not Track or Global Privacy Control) means nothing is sent and nothing is stored: no storage handle at all.
@@ -102,8 +120,8 @@ if (typeof window !== 'undefined') (function () {
   if (window.WANDER_QR) tag = { source: 'qr', medium: 'print', campaign: window.WANDER_QR };
   else if (!tag && here.indexOf('/links/') === 0) tag = { source: 'instagram', medium: 'bio', campaign: '' };
   var content = new URLSearchParams(location.search).get('utm_content');
-  function tagged(href, finder, photo) {
-    try { return tagUrl(href, { tag: tag, content: content, links: window.WANDER_LINKS, finder: finder || null, photo: photo || 0 }); } catch (e) { return href; }
+  function tagged(href, finder, photo, door) {
+    try { return tagUrl(href, { tag: tag, content: content, links: window.WANDER_LINKS, finder: finder || null, photo: photo || 0, door: door || '' }); } catch (e) { return href; }
   }
   // The first-party tracker. Not even built under a privacy signal (building it writes a visitor id to storage).
   var tracker = null; if (!quiet) { try { tracker = window.WanderBoot.tracker(); } catch (e) {} }
@@ -122,6 +140,7 @@ if (typeof window !== 'undefined') (function () {
       else if (name === 'scroll_depth') tracker.track('scroll', { pct: d.pct });
       else if (name === 'finder_use') tracker.track('calc', { p: d.people, h: d.hours });
       else if (name === 'time_on_page') { tracker.track('leave', { act: d.seconds, max: maxScroll }); tracker.flush(); }
+      else { var ev = namedEvent(name, d); if (ev) tracker.track('ev', ev); }
     } catch (e) {}
   }
   // The one page-wide layer. islands.js and the offices finder push into it through window.wanderLayer.
@@ -156,7 +175,7 @@ if (typeof window !== 'undefined') (function () {
   function relink() {
     var f = finderState(finderRoot, window.WanderFinder), pc = null; try { pc = document.querySelector('[data-photo]'); } catch (e) {}
     var photo = pc && pc.checked && f ? f.hours : 0;
-    goLinks.forEach(function (p) { try { var next = tagged(p[1], f, photo); if (p[0].getAttribute('href') !== next) p[0].setAttribute('href', next); } catch (e) {} });
+    goLinks.forEach(function (p) { try { var next = tagged(p[1], f, photo, p[0].getAttribute('data-door')); if (p[0].getAttribute('href') !== next) p[0].setAttribute('href', next); } catch (e) {} });
   }
   relink();
   if (finderRoot) { document.addEventListener('input', relink); document.addEventListener('change', relink); }

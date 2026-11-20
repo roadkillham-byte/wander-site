@@ -26,5 +26,5 @@ if (window.WANDER_REVIEW_URL) window.WANDER_LINKS.review = window.WANDER_REVIEW_
 window.FOUNDING_HOSTS_TOTAL = 5;
 window.FOUNDING_HOSTS_TAKEN = 0;
 // The optional photographer add-on on /offices/ and /events/: whole dollars an hour, GST included, for the whole morning. Leave "" and the option
-// does not exist on the site. Sam's cost is not published; set the sell price here, then rebuild. Keep this on one line (build.py reads it).
-window.WANDER_PHOTO_RATE = "";
+// does not exist on the site. Sam's cost is not published. Keep the same number in wander-booking/config.js (WANDER_PHOTO_RATE), then rebuild. Keep this on one line (build.py reads it).
+window.WANDER_PHOTO_RATE = "80";
