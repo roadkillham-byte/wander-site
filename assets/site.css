@@ -141,3 +141,6 @@ b,strong{color:var(--forest)}.island-events b,.island-events strong,.band b{colo
 .value-foot{margin:6px 0 0;font-size:16px;color:var(--ink)}
 .photo{max-width:760px;margin:0 auto 22px;padding:0 20px}.photo-opt{display:flex;gap:12px;align-items:center;font-size:20px;cursor:pointer}.photo-opt input{width:24px;height:24px;accent-color:var(--orange);flex:none}.photo-opt b{color:var(--orange);white-space:nowrap}.photo-note{display:block;margin:4px 0 0 36px;font-size:16px}
 .island-club{margin:8px 0 0;font-size:17px}.island-club a{color:var(--forest);font-weight:700}
+.step-n{display:inline-grid;place-items:center;width:34px;height:34px;margin-right:10px;border-radius:50%;background:var(--orange);color:var(--forest-deep);font-weight:700}
+.band .btn{margin:6px 0}.band .quiet a{color:var(--cream)}
+.hero .btn+.btn{margin-left:10px}.cols+.btn,.cols+p{margin-top:18px}
