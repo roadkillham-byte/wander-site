@@ -56,7 +56,7 @@
       return { kind: "event", title: "Where your " + format(p.price) + " goes",
         rows: [{ text: "Unlimited coffee, tea and hot chocolate, plus a breakfast bowl for all " + p.people, amount: p.cups },
                { text: "Barista, van and set-up: " + (p.hours + 1) + " hours (" + p.hours + " pouring, 1 set-up)", amount: p.crew }],
-        total: { text: "Your price", amount: p.price }, foot: "Free babyccinos for every child under 12, and all four guarantees." };
+        total: { text: "Your price", amount: p.price }, foot: "All five guarantees, free babyccinos for under 12s included." };
     }
     if (![wage, minutes, drinks].every(function (n) { return isFinite(n) && n > 0; })) return null;
     const rows = [
