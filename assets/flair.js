@@ -1,7 +1,7 @@
 /* Wander flair: the top-bar "open" pill and the depth on button hovers. No network, no tracking, nothing stored. */
 (function (root) {
   'use strict';
-  var OPEN = 6 * 60, CLOSE = 14 * 60;   // the posted hours: 6am to 2pm, Saturday and Sunday (Sydney time)
+  var OPEN = 7 * 60, CLOSE = 14 * 60;   // the posted hours: 7am to 2pm, Saturday and Sunday (Sydney time)
   function sydneyParts(d) {
     var h = 0, m = 0, wd = '';
     new Intl.DateTimeFormat('en-AU', { timeZone: 'Australia/Sydney', weekday: 'short', hour: 'numeric', minute: 'numeric', hourCycle: 'h23' }).formatToParts(d).forEach(function (p) {
@@ -12,10 +12,10 @@
   // The pill follows the posted hours (weekends only: weekdays are not promised), not whether the van is actually trading today.
   function status(d) {
     var t = sydneyParts(d), m = t.minutes;
-    if (!t.weekend) return { state: 'closed', text: 'Back Saturday, 6am' };
+    if (!t.weekend) return { state: 'closed', text: 'Back Saturday, 7am' };
     if (m >= OPEN && m < CLOSE) return { state: 'open', text: 'Open now, till 2pm' };
-    if (m < OPEN) return { state: 'closed', text: 'Opens at 6am' };
-    return { state: 'closed', text: t.sunday ? 'Back Saturday, 6am' : 'Back at 6am tomorrow' };
+    if (m < OPEN) return { state: 'closed', text: 'Opens at 7am' };
+    return { state: 'closed', text: t.sunday ? 'Back Saturday, 7am' : 'Back at 7am tomorrow' };
   }
   function pill(doc) {
     var els = doc.querySelectorAll('[data-open]');
