@@ -98,6 +98,8 @@
     const headEl = root.querySelector("[data-finder-head]");
     const valueEl = extras && extras.valueEl ? extras.valueEl : null, photoEl = extras && extras.photoEl ? extras.photoEl : null;
     function attr(el, k) { return el && typeof el.getAttribute === "function" ? el.getAttribute(k) : null; }
+    const noteEl = root.querySelector("[data-finder-photo-note]");
+    const photoBox = photoEl && typeof photoEl.querySelector === "function" ? photoEl.querySelector("[data-photo]") : null;
     const bowl = headEl && typeof headEl.getAttribute === "function" ? headEl.getAttribute("data-bowl") : null;
     if (!peopleEl || !hoursEls.length || !priceEl) return null;
     let timer = null, lastKey = null;
@@ -110,7 +112,10 @@
     function render(report) {
       const v = parse(peopleEl.value, hoursValue());
       const price = v === null ? null : priceFor(v.people, v.hours);
-      priceEl.textContent = price === null ? "" : format(price);
+      // The price tag is the whole price: with the photographer ticked it includes the photographer, and says so.
+      const photoCost = v !== null && photoBox && photoBox.checked ? photoPrice(v.hours, attr(photoEl, "data-rate")) : null;
+      priceEl.textContent = price === null ? "" : format(photoCost === null ? price : price + photoCost);
+      if (noteEl) noteEl.textContent = price === null || photoCost === null ? "" : "with a " + v.hours + "-hour photographer (" + format(photoCost) + ")";
       if (headEl) headEl.textContent = v === null ? "" : headLine(v.people, v.hours, bowl);
       if (valueEl) valueEl.innerHTML = v === null ? "" : valueHtml(v.people, v.hours, { bowl: attr(valueEl, "data-bowl"), drink: attr(valueEl, "data-drink"), wage: attr(valueEl, "data-wage"), minutes: attr(valueEl, "data-minutes"), drinks: attr(valueEl, "data-drinks") }, attr(valueEl, "data-kind") || "office");
       if (photoEl) { const pr = photoEl.querySelector("[data-photo-price]"), pp = v === null ? null : photoPrice(v.hours, attr(photoEl, "data-rate")); if (pr) pr.textContent = pp === null ? "" : "+" + format(pp); }
@@ -124,6 +129,8 @@
     function onEvent() { render(true); }
     root.addEventListener("input", onEvent);
     root.addEventListener("change", onEvent);
+    // The photographer box sits outside the finder, so it is listened to on its own. Ticking it re-prices; it is not a new people-and-hours use.
+    if (photoBox && typeof photoBox.addEventListener === "function") photoBox.addEventListener("change", function () { render(false); });
     render(false);
     return onEvent;
   }

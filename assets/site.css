@@ -144,3 +144,5 @@ b,strong{color:var(--forest)}.island-events b,.island-events strong,.band b{colo
 .step-n{display:inline-grid;place-items:center;width:34px;height:34px;margin-right:10px;border-radius:50%;background:var(--orange);color:var(--forest-deep);font-weight:700}
 .band .btn{margin:6px 0}.band .quiet a{color:var(--cream)}
 .hero .btn+.btn{margin-left:10px}.cols+.btn,.cols+p{margin-top:18px}
+
+.convince{max-width:760px;margin:22px auto 8px;text-align:left}.convince .cols h3{margin-top:0}.convince-line{text-align:center;margin:18px 0 6px}.finder-photo-note{font-size:16px;color:var(--forest)}
