@@ -37,12 +37,12 @@
     return left > 0 ? { left: left, total: total } : null;
   }
 
-  // The Founding hosts sentence in four parts (bold lead, body, "N places left" pill, tail), shared wording with the static line
+  // The Founding hosts sentence in three parts (bold lead, body, "N places left" pill), shared wording with the static line
   // build.py writes on /offices/ and /events/. null when no places are left.
   function foundingParts(f) {
     if (!f || !Number.isInteger(f.left) || f.left < 1 || !Number.isInteger(f.total)) return null;
     return ["Founding hosts:", " our first " + f.total + " bookings get a bonus hour free, for a few photos and kind words we can share. ",
-      f.left + (f.left === 1 ? " place" : " places") + " left.", " Don't be latte!"];
+      f.left + (f.left === 1 ? " place" : " places") + " left."];
   }
   function foundingLine(f) { const p = foundingParts(f); return p ? p.join("") : ""; }
 
@@ -154,7 +154,7 @@
         const p = foundingParts(f), b = doc.createElement("b"), left = doc.createElement("span");
         b.textContent = p[0]; left.className = "founding-left"; left.textContent = p[2];
         slot.textContent = "";
-        slot.append(b, p[1], left, p[3]);
+        slot.append(b, p[1], left);
         slot.hidden = false;
       }
     }
