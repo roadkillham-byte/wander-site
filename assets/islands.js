@@ -42,7 +42,7 @@
   function foundingParts(f) {
     if (!f || !Number.isInteger(f.left) || f.left < 1 || !Number.isInteger(f.total)) return null;
     return ["Founding hosts:", " our first " + f.total + " bookings get a bonus hour free, for a few photos and kind words we can share. ",
-      f.left + (f.left === 1 ? " place" : " places") + " left.", " Don't be latte! We confirm your bonus hour when we ring."];
+      f.left + (f.left === 1 ? " place" : " places") + " left.", " Don't be latte!"];
   }
   function foundingLine(f) { const p = foundingParts(f); return p ? p.join("") : ""; }
 
