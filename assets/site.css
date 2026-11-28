@@ -74,7 +74,6 @@ a:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-of
 /* The island's own button (below) shows only while Offices is collapsed; open (or JS off) the button under the finder is the one. */
 .island-events .island-go{display:none}.islands[data-live] .island-events:not([data-active]) .island-go{display:block}
 .founding{margin:10px 0;padding:10px 14px;font-size:17px;border:2px solid var(--orange);border-radius:16px 12px 18px 14px}.founding-left{display:inline-block;white-space:nowrap;font-weight:700;background:var(--cream);color:var(--forest);padding:0 9px;border-radius:999px}
-.island-slot{margin:12px 0 0;font:27px/1.1 var(--font)}
 /* Price finder (hub and offices page). Colours follow the surrounding text. */
 .finder{margin:0;padding:14px 16px 12px;border-radius:20px 24px 18px 26px;background:color-mix(in srgb,currentColor 8%,transparent);border:1.5px solid color-mix(in srgb,currentColor 30%,transparent)}
 .finder-q{margin:0 0 8px;font-size:15px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}

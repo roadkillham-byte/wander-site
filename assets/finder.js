@@ -27,12 +27,12 @@
   function format(price) {
     return "$" + Number(price).toLocaleString("en-AU");
   }
-  // The per-head line under the price: what one head gets for it. The bowl price comes from menu.json (rendered into data-bowl by
-  // build.py), never typed here. Empty for invalid input or when there is no bowl price, so nothing half-true is shown.
-  function headLine(people, hours, bowl) {
+  // The per-head line under the price: the price per head only. What a head gets is listed once, in "What you get" (or the
+  // Events island's "Every booking" line), so it is not repeated here. Empty for invalid input.
+  function headLine(people, hours) {
     const v = parse(people, hours), price = priceFor(people, hours);
-    if (v === null || price === null || typeof bowl !== "string" || !bowl.trim()) return "";
-    return "$" + Math.round(price / v.people).toLocaleString("en-AU") + " a head: unlimited coffee, tea and hot chocolate, a " + bowl.trim() + " breakfast bowl each, set-up included.";
+    if (v === null || price === null) return "";
+    return "$" + Math.round(price / v.people).toLocaleString("en-AU") + " a head.";
   }
   // What the price is made of, split with the rate card itself (quote.js): quote(0, h) is the crew side, (h + 1) x $68.41 for the barista, van and
   // set-up; the rest is drinks and bowls. Both parts are whole dollars and add back to the price exactly. Null for invalid input.
@@ -100,7 +100,6 @@
     function attr(el, k) { return el && typeof el.getAttribute === "function" ? el.getAttribute(k) : null; }
     const noteEl = root.querySelector("[data-finder-photo-note]");
     const photoBox = photoEl && typeof photoEl.querySelector === "function" ? photoEl.querySelector("[data-photo]") : null;
-    const bowl = headEl && typeof headEl.getAttribute === "function" ? headEl.getAttribute("data-bowl") : null;
     if (!peopleEl || !hoursEls.length || !priceEl) return null;
     let timer = null, lastKey = null;
     function hoursValue() {
@@ -116,7 +115,7 @@
       const photoCost = v !== null && photoBox && photoBox.checked ? photoPrice(v.hours, attr(photoEl, "data-rate")) : null;
       priceEl.textContent = price === null ? "" : format(photoCost === null ? price : price + photoCost);
       if (noteEl) noteEl.textContent = price === null || photoCost === null ? "" : "with a " + v.hours + "-hour photographer (" + format(photoCost) + ")";
-      if (headEl) headEl.textContent = v === null ? "" : headLine(v.people, v.hours, bowl);
+      if (headEl) headEl.textContent = v === null ? "" : headLine(v.people, v.hours);
       if (valueEl) valueEl.innerHTML = v === null ? "" : valueHtml(v.people, v.hours, { bowl: attr(valueEl, "data-bowl"), drink: attr(valueEl, "data-drink"), wage: attr(valueEl, "data-wage"), minutes: attr(valueEl, "data-minutes"), drinks: attr(valueEl, "data-drinks") }, attr(valueEl, "data-kind") || "office");
       if (photoEl) { const pr = photoEl.querySelector("[data-photo-price]"), pp = v === null ? null : photoPrice(v.hours, attr(photoEl, "data-rate")); if (pr) pr.textContent = pp === null ? "" : "+" + format(pp); }
       if (timer) { clearTimeout(timer); timer = null; }
